@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的分享空间</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #5a5a5a;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            font-weight: 300;
+            color: #6b8e8c;
+            letter-spacing: 2px;
+        }
+        
+        .header .subtitle {
+            font-size: 1em;
+            color: #999;
+            margin-top: 8px;
+            font-weight: 300;
+        }
+        
+        .publish-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .user-select {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .user-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+        
+        .user-btn.active {
+            border-color: #6b8e8c;
+            background: #f8fffe;
+            color: #6b8e8c;
+        }
+        
+        .content-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 1em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .content-input:focus {
+            outline: none;
+            border-color: #6b8e8c;
+        }
+        
+        .publish-btn {
+            width: 100%;
+            padding: 14px;
+            background: #6b8e8c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .publish-btn:hover {
+            background: #5a7c7a;
+        }
+        
+        .posts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .post-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .post-author {
+            font-weight: 500;
+            color: #6b8e8c;
+        }
+        
+        .post-date {
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        .post-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+        
+        .comments-section {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 20px;
+        }
+        
+        .comment {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        .comment-author {
+            color: #6b8e8c;
+            font-weight: 500;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .comment-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .comment-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+        
+        .comment-btn {
+            padding: 12px 20px;
+            background: #6b8e8c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .refresh-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 30px;
+            background: transparent;
+            border: 1px solid #6b8e8c;
+            color: #6b8e8c;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            background: #6b8e8c;
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .empty-state h3 {
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>我们的分享空间</h1>
+            <div class="subtitle">记录生活，分享心情</div>
+        </div>
+        
+        <div class="publish-box">
+            <div class="user-select">
+                <button class="user-btn active" data-user="我">我</button>
+                <button class="user-btn" data-user="朋友">朋友</button>
+            </div>
+            <textarea class="content-input" placeholder="写下你想分享的内容..."></textarea>
+            <button class="publish-btn">发布</button>
+        </div>
+        
+        <button class="refresh-btn">🔄 刷新内容</button>
+        
+        <div class="posts-container" id="postsContainer">
+            <div class="empty-state">
+                <h3>还没有任何分享</h3>
+                <p>发布第一条内容开始记录吧</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入 Firebase 配置 -->
+    <script type="module" src="./firebase-config.js"></script>
+    
+    <script>
+        // 当前用户选择
+        let currentUser = '我';
+        
+        // 用户选择按钮
+        document.querySelectorAll('.user-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.user-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentUser = this.getAttribute('data-user');
+            });
+        });
+        
+        // 发布内容
+        document.querySelector('.publish-btn').addEventListener('click', publishContent);
+        
+        // 回车发布
+        document.querySelector('.content-input').addEventListener('keypress', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                publishContent();
+            }
+        });
+        
+        // 刷新内容
+        document.querySelector('.refresh-btn').addEventListener('click', loadPosts);
+        
+        async function publishContent() {
+            const contentInput = document.querySelector('.content-input');
+            const content = contentInput.value.trim();
+            
+            if (!content) {
+                alert('请输入内容');
+                return;
+            }
+            
+            try {
+                await addPost(currentUser, content);
+                contentInput.value = '';
+                await loadPosts();
+                alert('发布成功！');
+            } catch (error) {
+                alert('发布失败，请重试');
+                console.error('发布错误:', error);
+            }
+        }
+        
+        // 页面加载时获取内容
+        window.addEventListener('DOMContentLoaded', loadPosts);
+    </script>
+</body>
+</html>

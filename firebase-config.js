@@ -17,8 +17,38 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// 添加新内容
-window.addPost = async function(author, content) {
+// SM.MS 图片上传函数
+window.uploadImage = async function(file) {
+    try {
+        console.log('开始上传图片:', file.name);
+        
+        const formData = new FormData();
+        formData.append('smfile', file);
+        
+        const response = await fetch('https://sm.ms/api/v2/upload', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        console.log('上传结果:', result);
+        
+        if (result.success) {
+            return result.data.url; // 返回图片链接
+        } else if (result.code === 'image_repeated') {
+            // 如果图片已存在，返回已有链接
+            return result.images;
+        } else {
+            throw new Error(result.message || '上传失败');
+        }
+    } catch (error) {
+        console.error("图片上传失败: ", error);
+        throw error;
+    }
+};
+
+// 添加新内容（支持图片）
+window.addPost = async function(author, content, imageUrl = null) {
     try {
         const postsRef = ref(database, 'posts');
         const newPostRef = push(postsRef);
@@ -26,6 +56,7 @@ window.addPost = async function(author, content) {
         await set(newPostRef, {
             author: author,
             content: content,
+            imageUrl: imageUrl, // 新增图片URL字段
             timestamp: new Date().toISOString(),
             comments: {}
         });
@@ -111,6 +142,13 @@ window.loadPosts = async function() {
                     });
                 }
                 
+                // 添加图片显示
+                const imageHTML = post.imageUrl ? `
+                    <div class="post-image">
+                        <img src="${post.imageUrl}" alt="分享的图片" onclick="viewImage('${post.imageUrl}')">
+                    </div>
+                ` : '';
+                
                 postsHTML += `
                     <div class="post-card">
                         <div class="post-header">
@@ -118,6 +156,7 @@ window.loadPosts = async function() {
                             <span class="post-date">${dateString}</span>
                         </div>
                         <div class="post-content">${post.content}</div>
+                        ${imageHTML}
                         <div class="comments-section">
                             ${commentsHTML || '<p style="color: #999; font-style: italic;">暂无评论</p>'}
                             <div class="comment-input-group">
@@ -170,5 +209,9 @@ window.postComment = async function(postId) {
         alert('评论发布失败，请重试');
         console.error('评论错误:', error);
     }
+};
 
+// 查看大图
+window.viewImage = function(imageUrl) {
+    window.open(imageUrl, '_blank');
 };

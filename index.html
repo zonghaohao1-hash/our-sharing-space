@@ -236,20 +236,20 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>欢迎来到秘密基地！</h1>
-            <div class="subtitle">今天过得怎么样</div>
+            <h1>我们的分享空间</h1>
+            <div class="subtitle">记录生活，分享心情</div>
         </div>
         
         <div class="publish-box">
             <div class="user-select">
-                <button class="user-btn active" data-user="小白">小白</button>
-                <button class="user-btn" data-user="小鸡毛">小鸡毛</button>
+                <button class="user-btn active" data-user="我">我</button>
+                <button class="user-btn" data-user="朋友">朋友</button>
             </div>
             <textarea class="content-input" placeholder="写下你想分享的内容..."></textarea>
             <button class="publish-btn">发布</button>
         </div>
         
-        <button class="refresh-btn">刷新内容</button>
+        <button class="refresh-btn">🔄 刷新内容</button>
         
         <div class="posts-container" id="postsContainer">
             <div class="empty-state">
@@ -264,7 +264,7 @@
     
     <script>
         // 当前用户选择
-        let currentUser = '小白';
+        let currentUser = '我';
         
         // 用户选择按钮
         document.querySelectorAll('.user-btn').forEach(btn => {

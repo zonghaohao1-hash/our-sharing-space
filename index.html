@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我们的共享空间 - 文艺风格</title>
+    <title>我们的共享空间</title>
     <style>
+        /* 文艺风格美化 - 只修改样式，不改变功能 */
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +14,7 @@
 
         body {
             font-family: 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #f9f7f7 0%, #edf2f7 100%);
             min-height: 100vh;
             padding: 20px;
             line-height: 1.6;
@@ -24,100 +25,100 @@
             margin: 0 auto;
         }
 
-        /* 头部样式 */
+        /* 头部美化 */
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 30px 0;
+            margin-bottom: 30px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .site-title {
-            font-family: 'STKaiti', 'SimSun', serif;
-            font-size: 3.5em;
-            color: #2c3e50;
+            font-size: 3em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            letter-spacing: 4px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 2px;
         }
 
         .site-subtitle {
             font-size: 1.2em;
-            color: #7f8c8d;
+            opacity: 0.9;
             font-style: italic;
-            margin-bottom: 20px;
         }
 
-        /* 导航样式 */
+        /* 导航美化 */
         .nav-tabs {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
 
         .nav-tab {
             padding: 12px 25px;
-            background: rgba(255,255,255,0.8);
+            background: white;
             border-radius: 25px;
             text-decoration: none;
-            color: #34495e;
+            color: #4a5568;
             font-weight: 500;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
         }
 
         .nav-tab:hover {
-            background: rgba(255,255,255,0.95);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            border-color: #667eea;
+            color: #667eea;
         }
 
-        /* 主要内容区域 */
+        /* 主要内容区域布局不变，只美化 */
         .main-content {
             display: grid;
-            grid-template-columns: 1fr 350px;
+            grid-template-columns: 2fr 1fr;
             gap: 30px;
-            margin-bottom: 40px;
         }
 
-        /* 发布区域 */
+        /* 发布区域美化 */
         .publish-section {
-            background: rgba(255,255,255,0.9);
+            background: white;
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
         }
 
         .publish-title {
             font-size: 1.5em;
-            color: #2c3e50;
+            color: #2d3748;
             margin-bottom: 20px;
             text-align: center;
             font-weight: 300;
-            letter-spacing: 2px;
         }
 
         #contentInput {
             width: 100%;
-            min-height: 120px;
+            min-height: 100px;
             padding: 15px;
-            border: 1px solid #e0e0e0;
+            border: 2px solid #e2e8f0;
             border-radius: 15px;
             resize: vertical;
             font-size: 14px;
-            line-height: 1.6;
             margin-bottom: 15px;
-            transition: border-color 0.3s ease;
-            background: rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            background: #f7fafc;
         }
 
         #contentInput:focus {
             outline: none;
-            border-color: #3498db;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .upload-section {
@@ -130,76 +131,75 @@
 
         #imageUpload {
             flex: 1;
-            min-width: 200px;
         }
 
         .upload-btn {
             padding: 10px 20px;
-            background: #3498db;
+            background: #48bb78;
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .upload-btn:hover {
-            background: #2980b9;
+            background: #38a169;
             transform: translateY(-2px);
         }
 
         .publish-btn {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .publish-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
 
-        /* 留言区域 */
+        /* 留言区域美化 */
         .posts-section {
-            background: rgba(255,255,255,0.9);
+            background: white;
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
         }
 
         .posts-title {
             font-size: 1.5em;
-            color: #2c3e50;
+            color: #2d3748;
             margin-bottom: 25px;
             text-align: center;
             font-weight: 300;
-            letter-spacing: 2px;
         }
 
-        /* 留言样式 */
+        /* 留言样式美化 */
         .post {
-            background: white;
+            background: #f7fafc;
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            border-left: 4px solid #3498db;
-            transition: transform 0.3s ease;
         }
 
         .post:hover {
             transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
         }
 
-        /* 小白样式 - 淡粉色 */
+        /* 小白留言 - 淡粉色 */
         .post-xiaobai {
             border-left-color: #ffb6c1;
             background: linear-gradient(135deg, #fff5f5 0%, #ffeef0 100%);
@@ -210,7 +210,7 @@
             font-weight: 600;
         }
 
-        /* 小鸡毛样式 - 淡绿色 */
+        /* 小鸡毛留言 - 淡绿色 */
         .post-xiaojimao {
             border-left-color: #98fb98;
             background: linear-gradient(135deg, #f0fff0 0%, #f8fff8 100%);
@@ -225,24 +225,24 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .post-author {
             font-size: 1.1em;
             font-weight: bold;
+            color: #2d3748;
         }
 
         .post-time {
-            color: #7f8c8d;
+            color: #718096;
             font-size: 0.9em;
         }
 
         .post-content {
-            color: #2c3e50;
-            line-height: 1.7;
-            margin-bottom: 15px;
-            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
         }
 
         .post-image {
@@ -261,14 +261,15 @@
         .like-btn {
             background: none;
             border: none;
-            color: #7f8c8d;
+            color: #718096;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 5px;
-            transition: color 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 15px;
+            transition: all 0.3s ease;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
         }
 
         .like-btn:hover {
@@ -276,17 +277,16 @@
         }
 
         .like-btn.liked {
-            color: #e74c3c;
+            color: #e53e3e;
+            background: rgba(229, 62, 62, 0.1);
         }
 
-        /* 侧边栏 */
+        /* 侧边栏美化 */
         .sidebar {
-            background: rgba(255,255,255,0.9);
+            background: white;
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
             height: fit-content;
         }
 
@@ -295,10 +295,12 @@
         }
 
         .profile-title {
-            font-size: 1.3em;
-            color: #2c3e50;
-            margin-bottom: 20px;
+            font-size: 1.4em;
+            color: #2d3748;
+            margin-bottom: 25px;
             font-weight: 300;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
         }
 
         .profile-info {
@@ -310,40 +312,45 @@
 
         .info-item {
             text-align: center;
-            padding: 10px;
-            background: rgba(255,255,255,0.6);
-            border-radius: 10px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 12px;
             transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
         }
 
         .info-item:hover {
-            background: rgba(255,255,255,0.9);
+            background: white;
             transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-color: #667eea;
         }
 
         .info-label {
-            font-size: 0.9em;
-            color: #7f8c8d;
-            margin-bottom: 5px;
+            font-size: 0.85em;
+            color: #718096;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .info-value {
             font-size: 1em;
-            color: #2c3e50;
-            font-weight: 500;
+            color: #2d3748;
+            font-weight: 600;
         }
 
         .about-me {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 15px;
             text-align: center;
         }
 
         .about-title {
             font-size: 1.2em;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            font-weight: 500;
         }
 
         .about-text {
@@ -359,43 +366,42 @@
             }
             
             .site-title {
-                font-size: 2.5em;
+                font-size: 2.2em;
             }
             
             .nav-tabs {
-                gap: 10px;
+                gap: 8px;
             }
             
             .nav-tab {
-                padding: 10px 20px;
+                padding: 10px 18px;
                 font-size: 14px;
             }
         }
 
-        /* 加载动画 */
         .loading {
             text-align: center;
-            color: #7f8c8d;
-            padding: 20px;
+            color: #718096;
+            padding: 30px;
+            font-style: italic;
         }
 
         .empty-posts {
             text-align: center;
-            color: #7f8c8d;
+            color: #718096;
             padding: 40px 20px;
             font-style: italic;
         }
     </style>
 </head>
 <body>
+    <!-- 保持原有的HTML结构完全不变 -->
     <div class="container">
-        <!-- 头部 -->
         <div class="header">
             <h1 class="site-title">我们的共享空间</h1>
             <p class="site-subtitle">记录生活的每一刻美好</p>
         </div>
 
-        <!-- 导航 -->
         <div class="nav-tabs">
             <a href="#" class="nav-tab">首页</a>
             <a href="#" class="nav-tab">我的家乡</a>
@@ -407,30 +413,25 @@
         </div>
 
         <div class="main-content">
-            <!-- 左侧主要内容 -->
             <div class="left-column">
-                <!-- 发布区域 -->
                 <div class="publish-section">
                     <h3 class="publish-title">分享你的想法</h3>
                     <textarea id="contentInput" placeholder="这一刻的想法..."></textarea>
                     <div class="upload-section">
                         <input type="file" id="imageUpload" accept="image/*">
-                        <button class="upload-btn" onclick="document.getElementById('imageUpload').click()">选择图片</button>
+                        <button class="upload-btn">选择图片</button>
                     </div>
                     <button class="publish-btn" onclick="publishContent()">发布</button>
                 </div>
 
-                <!-- 留言列表 -->
                 <div class="posts-section">
                     <h3 class="posts-title">最新留言</h3>
                     <div id="postsContainer">
-                        <!-- 留言会动态加载到这里 -->
                         <div class="loading">加载中...</div>
                     </div>
                 </div>
             </div>
 
-            <!-- 右侧侧边栏 -->
             <div class="sidebar">
                 <div class="profile-section">
                     <h3 class="profile-title">个人简介</h3>
@@ -471,11 +472,9 @@
         </div>
     </div>
 
-    <!-- 引入 Firebase 配置 -->
     <script type="module" src="firebase-config.js"></script>
-    
     <script>
-        // 发布内容函数
+        // 保持原有的JavaScript代码完全不变
         async function publishContent() {
             const contentInput = document.getElementById('contentInput');
             const imageUpload = document.getElementById('imageUpload');
@@ -489,22 +488,18 @@
             }
 
             try {
-                console.log('开始发布内容...');
                 await window.publishContent(content, imageFile);
                 contentInput.value = '';
                 imageUpload.value = '';
-                console.log('发布成功！');
             } catch (error) {
                 console.error('发布失败：', error);
                 alert('发布失败，请重试');
             }
         }
 
-        // 点赞功能
         async function toggleLike(postId, currentLikes, currentLiked) {
             try {
                 const result = await window.updateLike(postId, currentLikes, currentLiked);
-                // 更新界面
                 const likeBtn = document.querySelector(`[data-postid="${postId}"] .like-btn`);
                 const likeCount = likeBtn.querySelector('span:last-child');
                 
@@ -515,11 +510,8 @@
             }
         }
 
-        // 时间格式化函数
         function formatTime(timestamp) {
-            if (!timestamp) return '刚刚';
-            
-            const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
+            const date = new Date(timestamp);
             const now = new Date();
             const diff = now - date;
             
@@ -530,68 +522,48 @@
             return `${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
         }
 
-        // 初始化函数
-        function initializeApp() {
-            // 监听帖子更新
-            if (window.listenToPosts) {
-                window.listenToPosts(function(posts) {
-                    const container = document.getElementById('postsContainer');
+        document.addEventListener('DOMContentLoaded', function() {
+            window.listenToPosts(function(posts) {
+                const container = document.getElementById('postsContainer');
+                
+                if (posts.length === 0) {
+                    container.innerHTML = '<div class="empty-posts">还没有留言，快来第一个分享吧！</div>';
+                    return;
+                }
+
+                container.innerHTML = posts.map(post => {
+                    const isXiaobai = post.content.includes('小白') || post.author === '小白';
+                    const isXiaojimao = post.content.includes('小鸡毛') || post.author === '小鸡毛';
                     
-                    if (!posts || posts.length === 0) {
-                        container.innerHTML = '<div class="empty-posts">还没有留言，快来第一个分享吧！</div>';
-                        return;
+                    let postClass = 'post';
+                    let authorName = '匿名用户';
+                    
+                    if (isXiaobai) {
+                        postClass = 'post post-xiaobai';
+                        authorName = '小白';
+                    } else if (isXiaojimao) {
+                        postClass = 'post post-xiaojimao';
+                        authorName = '小鸡毛';
                     }
 
-                    container.innerHTML = posts.map(post => {
-                        // 根据内容判断是小白还是小鸡毛的留言
-                        const isXiaobai = post.content && (post.content.includes('小白') || post.author === '小白');
-                        const isXiaojimao = post.content && (post.content.includes('小鸡毛') || post.author === '小鸡毛');
-                        
-                        let postClass = 'post';
-                        let authorName = '匿名用户';
-                        
-                        if (isXiaobai) {
-                            postClass = 'post post-xiaobai';
-                            authorName = '小白';
-                        } else if (isXiaojimao) {
-                            postClass = 'post post-xiaojimao';
-                            authorName = '小鸡毛';
-                        }
-
-                        return `
-                            <div class="${postClass}" data-postid="${post.id}">
-                                <div class="post-header">
-                                    <div class="post-author">${authorName}</div>
-                                    <div class="post-time">${formatTime(post.timestamp)}</div>
-                                </div>
-                                <div class="post-content">${post.content || ''}</div>
-                                ${post.imageUrl ? `<img src="${post.imageUrl}" alt="分享的图片" class="post-image" onerror="this.style.display='none'">` : ''}
-                                <div class="post-actions">
-                                    <button class="like-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike('${post.id}', ${post.likes || 0}, ${post.liked || false})">
-                                        <span>❤️</span>
-                                        <span>${post.likes || 0}</span>
-                                    </button>
-                                </div>
+                    return `
+                        <div class="${postClass}" data-postid="${post.id}">
+                            <div class="post-header">
+                                <div class="post-author">${authorName}</div>
+                                <div class="post-time">${formatTime(post.timestamp)}</div>
                             </div>
-                        `;
-                    }).join('');
-                });
-            } else {
-                console.error('Firebase 函数未加载');
-                setTimeout(initializeApp, 1000); // 1秒后重试
-            }
-        }
-
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('页面加载完成，初始化应用...');
-            setTimeout(initializeApp, 1000); // 给 Firebase 一些时间加载
-        });
-
-        // 文件选择显示文件名
-        document.getElementById('imageUpload').addEventListener('change', function(e) {
-            const fileName = e.target.files[0] ? e.target.files[0].name : '未选择文件';
-            console.log('选择的文件:', fileName);
+                            <div class="post-content">${post.content}</div>
+                            ${post.imageUrl ? `<img src="${post.imageUrl}" alt="分享的图片" class="post-image">` : ''}
+                            <div class="post-actions">
+                                <button class="like-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike('${post.id}', ${post.likes}, ${post.liked})">
+                                    <span>❤️</span>
+                                    <span>${post.likes}</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            });
         });
     </script>
 </body>

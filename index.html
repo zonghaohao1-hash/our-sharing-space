@@ -236,14 +236,14 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>我们的分享空间</h1>
-            <div class="subtitle">记录生活，分享心情</div>
+            <h1>欢迎来到秘密基地！</h1>
+            <div class="subtitle">今天过得怎么样</div>
         </div>
         
         <div class="publish-box">
             <div class="user-select">
-                <button class="user-btn active" data-user="我">我</button>
-                <button class="user-btn" data-user="朋友">朋友</button>
+                <button class="user-btn active" data-user="小白">小白</button>
+                <button class="user-btn" data-user="小鸡毛">小鸡毛</button>
             </div>
             <textarea class="content-input" placeholder="写下你想分享的内容..."></textarea>
             <button class="publish-btn">发布</button>
@@ -264,7 +264,7 @@
     
     <script>
         // 当前用户选择
-        let currentUser = '我';
+        let currentUser = '小白';
         
         // 用户选择按钮
         document.querySelectorAll('.user-btn').forEach(btn => {
@@ -286,7 +286,13 @@
         });
         
         // 刷新内容
-        document.querySelector('.refresh-btn').addEventListener('click', loadPosts);
+        document.querySelector('.refresh-btn').addEventListener('click', function() {
+            if (typeof loadPosts !== 'undefined') {
+                loadPosts();
+            } else {
+                console.log('请等待页面完全加载后重试');
+            }
+        });
         
         async function publishContent() {
             const contentInput = document.querySelector('.content-input');
@@ -300,7 +306,10 @@
             try {
                 await addPost(currentUser, content);
                 contentInput.value = '';
-                await loadPosts();
+                // 发布后自动加载最新内容
+                if (typeof loadPosts !== 'undefined') {
+                    await loadPosts();
+                }
                 alert('发布成功！');
             } catch (error) {
                 alert('发布失败，请重试');
@@ -308,8 +317,32 @@
             }
         }
         
-        // 页面加载时获取内容
-        window.addEventListener('DOMContentLoaded', loadPosts);
+        // 页面加载时获取内容 - 添加重试机制
+        window.addEventListener('DOMContentLoaded', function() {
+            let retryCount = 0;
+            const maxRetries = 5;
+            
+            function tryLoadPosts() {
+                if (typeof loadPosts !== 'undefined') {
+                    loadPosts();
+                    console.log('内容加载成功！');
+                } else if (retryCount < maxRetries) {
+                    retryCount++;
+                    console.log(`第 ${retryCount} 次尝试加载内容...`);
+                    setTimeout(tryLoadPosts, 500);
+                } else {
+                    console.log('初始加载失败，请点击刷新按钮手动加载内容');
+                    document.getElementById('postsContainer').innerHTML = `
+                        <div class="empty-state">
+                            <h3>内容加载中...</h3>
+                            <p>如果长时间未显示，请点击"刷新内容"按钮</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            tryLoadPosts();
+        });
     </script>
 </body>
 </html>

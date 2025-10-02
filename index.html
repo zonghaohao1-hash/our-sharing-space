@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我们的共享空间</title>
+    <title>我们的分享空间</title>
     <style>
-        /* 文艺风格美化 - 只修改样式，不改变功能 */
         * {
             margin: 0;
             padding: 0;
@@ -13,468 +12,183 @@
         }
 
         body {
-            font-family: 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
-            background: linear-gradient(135deg, #f9f7f7 0%, #edf2f7 100%);
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e3edf7 100%);
             min-height: 100vh;
             padding: 20px;
-            line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
-        /* 头部美化 */
         .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 40px 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
             color: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            text-align: center;
         }
 
         .site-title {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            letter-spacing: 2px;
+            font-size: 2.2em;
+            margin-bottom: 8px;
         }
 
         .site-subtitle {
-            font-size: 1.2em;
             opacity: 0.9;
-            font-style: italic;
         }
 
-        /* 导航美化 */
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .nav-tab {
-            padding: 12px 25px;
-            background: white;
-            border-radius: 25px;
-            text-decoration: none;
-            color: #4a5568;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-        }
-
-        .nav-tab:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            border-color: #667eea;
-            color: #667eea;
-        }
-
-        /* 主要内容区域布局不变，只美化 */
-        .main-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-        }
-
-        /* 发布区域美化 */
         .publish-section {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .publish-title {
-            font-size: 1.5em;
-            color: #2d3748;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: 300;
+            padding: 25px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         #contentInput {
             width: 100%;
-            min-height: 100px;
+            min-height: 80px;
             padding: 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 15px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
             resize: vertical;
-            font-size: 14px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            background: #f7fafc;
+            margin-bottom: 12px;
+            background: #fafafa;
         }
 
         #contentInput:focus {
             outline: none;
             border-color: #667eea;
             background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .upload-section {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        #imageUpload {
-            flex: 1;
-        }
-
-        .upload-btn {
-            padding: 10px 20px;
-            background: #48bb78;
+        .publish-btn, .refresh-btn {
+            padding: 12px 24px;
+            background: #667eea;
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .upload-btn:hover {
-            background: #38a169;
-            transform: translateY(-2px);
-        }
-
-        .publish-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
             font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
         }
 
-        .publish-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        .publish-btn:hover, .refresh-btn:hover {
+            background: #5a6fd8;
         }
 
-        /* 留言区域美化 */
-        .posts-section {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        .controls {
+            padding: 20px 25px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .content-section {
+            padding: 25px;
         }
 
         .posts-title {
-            font-size: 1.5em;
-            color: #2d3748;
-            margin-bottom: 25px;
-            text-align: center;
-            font-weight: 300;
-        }
-
-        /* 留言样式美化 */
-        .post {
-            background: #f7fafc;
-            border-radius: 15px;
-            padding: 20px;
+            font-size: 1.3em;
             margin-bottom: 20px;
-            border-left: 5px solid #667eea;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
         }
 
-        .post:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-        }
-
-        /* 小白留言 - 淡粉色 */
+        /* 小白样式 - 淡粉色 */
         .post-xiaobai {
-            border-left-color: #ffb6c1;
-            background: linear-gradient(135deg, #fff5f5 0%, #ffeef0 100%);
+            background: #fff5f5;
+            border-left: 5px solid #ffb6c1;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
         }
 
-        .post-xiaobai .post-author {
-            color: #d23669;
-            font-weight: 600;
-        }
-
-        /* 小鸡毛留言 - 淡绿色 */
+        /* 小鸡毛样式 - 淡绿色 */
         .post-xiaojimao {
-            border-left-color: #98fb98;
-            background: linear-gradient(135deg, #f0fff0 0%, #f8fff8 100%);
-        }
-
-        .post-xiaojimao .post-author {
-            color: #228b22;
-            font-weight: 600;
+            background: #f0fff0;
+            border-left: 5px solid #98fb98;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
         }
 
         .post-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 10px;
         }
 
         .post-author {
-            font-size: 1.1em;
             font-weight: bold;
-            color: #2d3748;
+            font-size: 1.1em;
+        }
+
+        .post-xiaobai .post-author {
+            color: #d23669;
+        }
+
+        .post-xiaojimao .post-author {
+            color: #228b22;
         }
 
         .post-time {
-            color: #718096;
-            font-size: 0.9em;
+            color: #666;
         }
 
         .post-content {
-            color: #4a5568;
             line-height: 1.6;
             margin-bottom: 10px;
         }
 
         .post-image {
             max-width: 100%;
-            border-radius: 10px;
+            border-radius: 8px;
             margin: 10px 0;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-
-        .post-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .like-btn {
-            background: none;
-            border: none;
-            color: #718096;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        .like-btn:hover {
-            background: rgba(0,0,0,0.05);
-        }
-
-        .like-btn.liked {
-            color: #e53e3e;
-            background: rgba(229, 62, 62, 0.1);
-        }
-
-        /* 侧边栏美化 */
-        .sidebar {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            height: fit-content;
-        }
-
-        .profile-section {
-            text-align: center;
-        }
-
-        .profile-title {
-            font-size: 1.4em;
-            color: #2d3748;
-            margin-bottom: 25px;
-            font-weight: 300;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
-        }
-
-        .profile-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .info-item {
-            text-align: center;
-            padding: 15px;
-            background: #f7fafc;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .info-item:hover {
-            background: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-color: #667eea;
-        }
-
-        .info-label {
-            font-size: 0.85em;
-            color: #718096;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .info-value {
-            font-size: 1em;
-            color: #2d3748;
-            font-weight: 600;
-        }
-
-        .about-me {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .about-title {
-            font-size: 1.2em;
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-
-        .about-text {
-            font-size: 0.95em;
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .site-title {
-                font-size: 2.2em;
-            }
-            
-            .nav-tabs {
-                gap: 8px;
-            }
-            
-            .nav-tab {
-                padding: 10px 18px;
-                font-size: 14px;
-            }
-        }
-
-        .loading {
-            text-align: center;
-            color: #718096;
-            padding: 30px;
-            font-style: italic;
         }
 
         .empty-posts {
             text-align: center;
-            color: #718096;
+            color: #666;
             padding: 40px 20px;
-            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <!-- 保持原有的HTML结构完全不变 -->
     <div class="container">
         <div class="header">
-            <h1 class="site-title">我们的共享空间</h1>
-            <p class="site-subtitle">记录生活的每一刻美好</p>
+            <h1 class="site-title">我们的分享空间</h1>
+            <p class="site-subtitle">记录生活，分享心情</p>
         </div>
 
-        <div class="nav-tabs">
-            <a href="#" class="nav-tab">首页</a>
-            <a href="#" class="nav-tab">我的家乡</a>
-            <a href="#" class="nav-tab">个人作品</a>
-            <a href="#" class="nav-tab">喜欢音乐</a>
-            <a href="#" class="nav-tab">喜欢阅读</a>
-            <a href="#" class="nav-tab">游戏日常</a>
-            <a href="#" class="nav-tab">留言板</a>
-        </div>
-
-        <div class="main-content">
-            <div class="left-column">
-                <div class="publish-section">
-                    <h3 class="publish-title">分享你的想法</h3>
-                    <textarea id="contentInput" placeholder="这一刻的想法..."></textarea>
-                    <div class="upload-section">
-                        <input type="file" id="imageUpload" accept="image/*">
-                        <button class="upload-btn">选择图片</button>
-                    </div>
-                    <button class="publish-btn" onclick="publishContent()">发布</button>
-                </div>
-
-                <div class="posts-section">
-                    <h3 class="posts-title">最新留言</h3>
-                    <div id="postsContainer">
-                        <div class="loading">加载中...</div>
-                    </div>
-                </div>
+        <div class="publish-section">
+            <textarea id="contentInput" placeholder="写下你想分享的内容..."></textarea>
+            <div class="upload-section">
+                <input type="file" id="imageUpload" accept="image/*">
             </div>
+            <button class="publish-btn" onclick="publishContent()">发布</button>
+        </div>
 
-            <div class="sidebar">
-                <div class="profile-section">
-                    <h3 class="profile-title">个人简介</h3>
-                    <div class="profile-info">
-                        <div class="info-item">
-                            <div class="info-label">姓名</div>
-                            <div class="info-value">小白</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">来自</div>
-                            <div class="info-value">温暖的小窝</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">手机</div>
-                            <div class="info-value">138****5678</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">QQ</div>
-                            <div class="info-value">123456789</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">微信</div>
-                            <div class="info-value">xiaobai2024</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">学校</div>
-                            <div class="info-value">毛茸茸大学</div>
-                        </div>
-                    </div>
-                    <div class="about-me">
-                        <div class="about-title">关于我</div>
-                        <div class="about-text">
-                            I'm a Yax girl. How Spark, love these to make. Mdow'.
-                        </div>
-                    </div>
-                </div>
+        <div class="controls">
+            <button class="refresh-btn" onclick="loadPosts()">刷新内容</button>
+        </div>
+
+        <div class="content-section">
+            <h3 class="posts-title">分享内容</h3>
+            <div id="postsContainer">
+                <div class="empty-posts">还没有任何分享<br>发布第一条内容开始记录吧</div>
             </div>
         </div>
     </div>
 
     <script type="module" src="firebase-config.js"></script>
     <script>
-        // 保持原有的JavaScript代码完全不变
         async function publishContent() {
             const contentInput = document.getElementById('contentInput');
             const imageUpload = document.getElementById('imageUpload');
@@ -491,23 +205,16 @@
                 await window.publishContent(content, imageFile);
                 contentInput.value = '';
                 imageUpload.value = '';
+                loadPosts();
             } catch (error) {
                 console.error('发布失败：', error);
                 alert('发布失败，请重试');
             }
         }
 
-        async function toggleLike(postId, currentLikes, currentLiked) {
-            try {
-                const result = await window.updateLike(postId, currentLikes, currentLiked);
-                const likeBtn = document.querySelector(`[data-postid="${postId}"] .like-btn`);
-                const likeCount = likeBtn.querySelector('span:last-child');
-                
-                likeBtn.classList.toggle('liked');
-                likeCount.textContent = result.likes;
-            } catch (error) {
-                console.error('点赞失败：', error);
-            }
+        function loadPosts() {
+            // 刷新内容
+            console.log('刷新内容');
         }
 
         function formatTime(timestamp) {
@@ -526,40 +233,34 @@
             window.listenToPosts(function(posts) {
                 const container = document.getElementById('postsContainer');
                 
-                if (posts.length === 0) {
-                    container.innerHTML = '<div class="empty-posts">还没有留言，快来第一个分享吧！</div>';
+                if (!posts || posts.length === 0) {
+                    container.innerHTML = '<div class="empty-posts">还没有任何分享<br>发布第一条内容开始记录吧</div>';
                     return;
                 }
 
                 container.innerHTML = posts.map(post => {
-                    const isXiaobai = post.content.includes('小白') || post.author === '小白';
-                    const isXiaojimao = post.content.includes('小鸡毛') || post.author === '小鸡毛';
+                    const isXiaobai = post.content && post.content.includes('小白');
+                    const isXiaojimao = post.content && post.content.includes('小鸡毛');
                     
-                    let postClass = 'post';
-                    let authorName = '匿名用户';
+                    let postClass = 'post-xiaobai';
+                    let authorName = '小白';
                     
                     if (isXiaobai) {
-                        postClass = 'post post-xiaobai';
+                        postClass = 'post-xiaobai';
                         authorName = '小白';
                     } else if (isXiaojimao) {
-                        postClass = 'post post-xiaojimao';
+                        postClass = 'post-xiaojimao';
                         authorName = '小鸡毛';
                     }
 
                     return `
-                        <div class="${postClass}" data-postid="${post.id}">
+                        <div class="${postClass}">
                             <div class="post-header">
                                 <div class="post-author">${authorName}</div>
                                 <div class="post-time">${formatTime(post.timestamp)}</div>
                             </div>
-                            <div class="post-content">${post.content}</div>
+                            <div class="post-content">${post.content || ''}</div>
                             ${post.imageUrl ? `<img src="${post.imageUrl}" alt="分享的图片" class="post-image">` : ''}
-                            <div class="post-actions">
-                                <button class="like-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike('${post.id}', ${post.likes}, ${post.liked})">
-                                    <span>❤️</span>
-                                    <span>${post.likes}</span>
-                                </button>
-                            </div>
                         </div>
                     `;
                 }).join('');

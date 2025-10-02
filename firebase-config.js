@@ -17,30 +17,29 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// FreeImage.host 图片上传函数（真正无需API密钥）
+// Base64图片编码（100%可行，无需网络请求）
 window.uploadImage = async function(file) {
     try {
-        console.log('开始上传图片:', file.name);
+        console.log('使用Base64编码图片:', file.name);
         
-        const formData = new FormData();
-        formData.append('image', file);
-        
-        // 使用 FreeImage.host 的免费API
-        const response = await fetch('https://freeimage.host/api/1/upload', {
-            method: 'POST',
-            body: formData
-        });
-        
-        const result = await response.json();
-        console.log('上传结果:', result);
-        
-        if (result.success) {
-            return result.image.url; // 返回图片链接
-        } else {
-            throw new Error(result.error.message || '上传失败');
+        // 检查文件大小（建议限制在2MB以内）
+        if (file.size > 2 * 1024 * 1024) {
+            throw new Error('图片大小不能超过2MB，请选择较小的图片');
         }
+        
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                console.log('图片Base64编码完成');
+                resolve(e.target.result); // 返回data:image/jpeg;base64,...格式
+            };
+            reader.onerror = function(error) {
+                reject(new Error('图片读取失败: ' + error));
+            };
+            reader.readAsDataURL(file);
+        });
     } catch (error) {
-        console.error("图片上传失败: ", error);
+        console.error("图片处理失败: ", error);
         throw error;
     }
 };
@@ -213,6 +212,7 @@ window.postComment = async function(postId) {
 window.viewImage = function(imageUrl) {
     window.open(imageUrl, '_blank');
 };
+
 
 
 

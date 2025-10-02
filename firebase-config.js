@@ -17,15 +17,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// SM.MS 图片上传函数
+// ImgBB 图片上传函数（免费无需登录）
 window.uploadImage = async function(file) {
     try {
         console.log('开始上传图片:', file.name);
         
         const formData = new FormData();
-        formData.append('smfile', file);
+        formData.append('image', file);
         
-        const response = await fetch('https://sm.ms/api/v2/upload', {
+        // 使用 ImgBB 免费API（无需注册）
+        const response = await fetch('https://api.imgbb.com/1/upload?key=6c2d4c5cf14ef759e5754691c0c65e5f', {
             method: 'POST',
             body: formData
         });
@@ -35,11 +36,8 @@ window.uploadImage = async function(file) {
         
         if (result.success) {
             return result.data.url; // 返回图片链接
-        } else if (result.code === 'image_repeated') {
-            // 如果图片已存在，返回已有链接
-            return result.images;
         } else {
-            throw new Error(result.message || '上传失败');
+            throw new Error(result.error.message || '上传失败');
         }
     } catch (error) {
         console.error("图片上传失败: ", error);
@@ -215,3 +213,4 @@ window.postComment = async function(postId) {
 window.viewImage = function(imageUrl) {
     window.open(imageUrl, '_blank');
 };
+

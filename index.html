@@ -3,466 +3,596 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我们的分享空间</title>
+    <title>我们的共享空间 - 文艺风格</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 20px;
-            color: #5a5a5a;
+            line-height: 1.6;
         }
-        
+
         .container {
-            max-width: 600px;
+            max-width: 1200px;
             margin: 0 auto;
         }
-        
+
+        /* 头部样式 */
         .header {
             text-align: center;
             margin-bottom: 40px;
-            padding: 20px 0;
-            border-bottom: 1px solid #e8e8e8;
+            padding: 30px 0;
         }
-        
-        .header h1 {
-            font-size: 2.2em;
+
+        .site-title {
+            font-family: 'STKaiti', 'SimSun', serif;
+            font-size: 3.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 4px;
+        }
+
+        .site-subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        /* 导航样式 */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 25px;
+            text-decoration: none;
+            color: #34495e;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* 主要内容区域 */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* 发布区域 */
+        .publish-section {
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .publish-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
             font-weight: 300;
-            color: #6b8e8c;
             letter-spacing: 2px;
         }
-        
-        .header .subtitle {
-            font-size: 1em;
-            color: #999;
-            margin-top: 8px;
-            font-weight: 300;
-        }
-        
-        .publish-box {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            border: 1px solid #f0f0f0;
-        }
-        
-        .user-select {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .user-btn {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #e8e8e8;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1em;
-        }
-        
-        .user-btn.active {
-            border-color: #6b8e8c;
-            background: #f8fffe;
-            color: #6b8e8c;
-        }
-        
-        .content-input {
+
+        #contentInput {
             width: 100%;
-            min-height: 100px;
+            min-height: 120px;
             padding: 15px;
-            border: 1px solid #e8e8e8;
-            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
             resize: vertical;
-            font-size: 1em;
-            line-height: 1.5;
+            font-size: 14px;
+            line-height: 1.6;
             margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+            background: rgba(255,255,255,0.8);
         }
-        
-        .content-input:focus {
+
+        #contentInput:focus {
             outline: none;
-            border-color: #6b8e8c;
+            border-color: #3498db;
         }
-        
-        .publish-btn {
-            width: 100%;
-            padding: 14px;
-            background: #6b8e8c;
+
+        .upload-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        #imageUpload {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .upload-btn {
+            padding: 10px 20px;
+            background: #3498db;
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
         }
-        
+
+        .upload-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .publish-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
         .publish-btn:hover {
-            background: #5a7c7a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        
-        .posts-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+
+        /* 留言区域 */
+        .posts-section {
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        
-        .post-card {
+
+        .posts-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* 留言样式 */
+        .post {
             background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            border: 1px solid #f0f0f0;
-            animation: fadeIn 0.5s ease;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s ease;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .post:hover {
+            transform: translateY(-3px);
         }
-        
+
+        /* 小白样式 - 淡粉色 */
+        .post-xiaobai {
+            border-left-color: #ffb6c1;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffeef0 100%);
+        }
+
+        .post-xiaobai .post-author {
+            color: #d23669;
+            font-weight: 600;
+        }
+
+        /* 小鸡毛样式 - 淡绿色 */
+        .post-xiaojimao {
+            border-left-color: #98fb98;
+            background: linear-gradient(135deg, #f0fff0 0%, #f8fff8 100%);
+        }
+
+        .post-xiaojimao .post-author {
+            color: #228b22;
+            font-weight: 600;
+        }
+
         .post-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        
+
         .post-author {
-            font-weight: 500;
-            color: #6b8e8c;
+            font-size: 1.1em;
+            font-weight: bold;
         }
-        
-        .post-date {
-            color: #999;
+
+        .post-time {
+            color: #7f8c8d;
             font-size: 0.9em;
         }
-        
+
         .post-content {
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-size: 1.05em;
+            color: #2c3e50;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-size: 15px;
         }
-        
-        .comments-section {
-            border-top: 1px solid #f0f0f0;
-            padding-top: 20px;
+
+        .post-image {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 10px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
-        
-        .comment {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        
-        .comment-header {
+
+        .post-actions {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.9em;
+            align-items: center;
+            gap: 15px;
         }
-        
-        .comment-author {
-            color: #6b8e8c;
+
+        .like-btn {
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+
+        .like-btn:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .like-btn.liked {
+            color: #e74c3c;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            height: fit-content;
+        }
+
+        .profile-section {
+            text-align: center;
+        }
+
+        .profile-title {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .profile-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 10px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateY(-2px);
+        }
+
+        .info-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1em;
+            color: #2c3e50;
             font-weight: 500;
         }
-        
-        .comment-content {
-            line-height: 1.5;
-        }
-        
-        .comment-input-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .comment-input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #e8e8e8;
-            border-radius: 8px;
-            font-size: 0.95em;
-        }
-        
-        .comment-btn {
-            padding: 12px 20px;
-            background: #6b8e8c;
+
+        .about-me {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        
-        .refresh-btn {
-            display: block;
-            margin: 30px auto;
-            padding: 12px 30px;
-            background: transparent;
-            border: 1px solid #6b8e8c;
-            color: #6b8e8c;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .refresh-btn:hover {
-            background: #6b8e8c;
-            color: white;
-        }
-        
-        .empty-state {
+            padding: 20px;
+            border-radius: 15px;
             text-align: center;
-            padding: 60px 20px;
-            color: #999;
         }
-        
-        .empty-state h3 {
-            font-weight: 300;
+
+        .about-title {
+            font-size: 1.2em;
             margin-bottom: 10px;
         }
 
-        /* 图片上传样式 */
-        .image-upload-area {
-            margin-bottom: 15px;
+        .about-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            opacity: 0.9;
         }
 
-        .image-btn {
-            padding: 10px 16px;
-            background: #f8f9fa;
-            border: 1px dashed #6b8e8c;
-            border-radius: 8px;
-            color: #6b8e8c;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .site-title {
+                font-size: 2.5em;
+            }
+            
+            .nav-tabs {
+                gap: 10px;
+            }
+            
+            .nav-tab {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
         }
 
-        .image-btn:hover {
-            background: #6b8e8c;
-            color: white;
-        }
-
-        .image-preview {
-            margin-top: 10px;
+        /* 加载动画 */
+        .loading {
             text-align: center;
+            color: #7f8c8d;
+            padding: 20px;
         }
 
-        .preview-image {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .remove-image {
-            margin-top: 8px;
-            padding: 4px 12px;
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8em;
-        }
-
-        /* 帖子图片样式 */
-        .post-image {
-            margin: 15px 0;
+        .empty-posts {
             text-align: center;
-        }
-
-        .post-image img {
-            max-width: 100%;
-            max-height: 400px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .post-image img:hover {
-            transform: scale(1.02);
+            color: #7f8c8d;
+            padding: 40px 20px;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- 头部 -->
         <div class="header">
-            <h1>欢迎来到秘密基地！</h1>
-            <div class="subtitle">今天过得怎么样</div>
+            <h1 class="site-title">我们的共享空间</h1>
+            <p class="site-subtitle">记录生活的每一刻美好</p>
         </div>
-        
-        <div class="publish-box">
-            <div class="user-select">
-                <button class="user-btn active" data-user="小白">小白</button>
-                <button class="user-btn" data-user="小鸡毛">小鸡毛</button>
-            </div>
-            <textarea class="content-input" placeholder="写下你想分享的内容..."></textarea>
-            
-            <!-- 图片上传区域 -->
-            <div class="image-upload-area">
-                <input type="file" id="imageInput" accept="image/*" style="display: none;">
-                <button type="button" id="chooseImageBtn" class="image-btn">📷 添加图片</button>
-                <div id="imagePreview" class="image-preview"></div>
-            </div>
-            
-            <button class="publish-btn">发布</button>
+
+        <!-- 导航 -->
+        <div class="nav-tabs">
+            <a href="#" class="nav-tab">首页</a>
+            <a href="#" class="nav-tab">我的家乡</a>
+            <a href="#" class="nav-tab">个人作品</a>
+            <a href="#" class="nav-tab">喜欢音乐</a>
+            <a href="#" class="nav-tab">喜欢阅读</a>
+            <a href="#" class="nav-tab">游戏日常</a>
+            <a href="#" class="nav-tab">留言板</a>
         </div>
-        
-        <button class="refresh-btn">🔄 刷新内容</button>
-        
-        <div class="posts-container" id="postsContainer">
-            <div class="empty-state">
-                <h3>还没有任何分享</h3>
-                <p>发布第一条内容开始记录吧</p>
+
+        <div class="main-content">
+            <!-- 左侧主要内容 -->
+            <div class="left-column">
+                <!-- 发布区域 -->
+                <div class="publish-section">
+                    <h3 class="publish-title">分享你的想法</h3>
+                    <textarea id="contentInput" placeholder="这一刻的想法..."></textarea>
+                    <div class="upload-section">
+                        <input type="file" id="imageUpload" accept="image/*">
+                        <button class="upload-btn" onclick="document.getElementById('imageUpload').click()">选择图片</button>
+                    </div>
+                    <button class="publish-btn" onclick="publishContent()">发布</button>
+                </div>
+
+                <!-- 留言列表 -->
+                <div class="posts-section">
+                    <h3 class="posts-title">最新留言</h3>
+                    <div id="postsContainer">
+                        <!-- 留言会动态加载到这里 -->
+                        <div class="loading">加载中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧侧边栏 -->
+            <div class="sidebar">
+                <div class="profile-section">
+                    <h3 class="profile-title">个人简介</h3>
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <div class="info-label">姓名</div>
+                            <div class="info-value">小白</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">来自</div>
+                            <div class="info-value">温暖的小窝</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">手机</div>
+                            <div class="info-value">138****5678</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">QQ</div>
+                            <div class="info-value">123456789</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">微信</div>
+                            <div class="info-value">xiaobai2024</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">学校</div>
+                            <div class="info-value">毛茸茸大学</div>
+                        </div>
+                    </div>
+                    <div class="about-me">
+                        <div class="about-title">关于我</div>
+                        <div class="about-text">
+                            I'm a Yax girl. How Spark, love these to make. Mdow'.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- 引入 Firebase 配置 -->
-    <script type="module" src="./firebase-config.js"></script>
+    <script type="module" src="firebase-config.js"></script>
     
     <script>
-        // 当前用户选择
-        let currentUser = '小白';
-        
-        // 图片选择按钮事件
-        document.getElementById('chooseImageBtn').addEventListener('click', function() {
-            document.getElementById('imageInput').click();
-        });
-
-        // 图片选择变化事件
-        document.getElementById('imageInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                previewImage(file);
-            }
-        });
-
-        // 图片预览函数
-        function previewImage(file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const preview = document.getElementById('imagePreview');
-                preview.innerHTML = `
-                    <img src="${e.target.result}" class="preview-image" alt="预览图片">
-                    <button type="button" class="remove-image" onclick="removeImage()">移除图片</button>
-                `;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // 移除图片函数
-        window.removeImage = function() {
-            document.getElementById('imageInput').value = '';
-            document.getElementById('imagePreview').innerHTML = '';
-        }
-        
-        // 用户选择按钮
-        document.querySelectorAll('.user-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.user-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentUser = this.getAttribute('data-user');
-            });
-        });
-        
-        // 发布内容
-        document.querySelector('.publish-btn').addEventListener('click', publishContent);
-        
-        // 回车发布
-        document.querySelector('.content-input').addEventListener('keypress', function(e) {
-            if (e.ctrlKey && e.key === 'Enter') {
-                publishContent();
-            }
-        });
-        
-        // 刷新内容
-        document.querySelector('.refresh-btn').addEventListener('click', function() {
-            if (typeof loadPosts !== 'undefined') {
-                loadPosts();
-            } else {
-                console.log('请等待页面完全加载后重试');
-            }
-        });
-        
+        // 发布内容函数
         async function publishContent() {
-            const contentInput = document.querySelector('.content-input');
-            const content = contentInput.value.trim();
-            const imageFile = document.getElementById('imageInput').files[0];
+            const contentInput = document.getElementById('contentInput');
+            const imageUpload = document.getElementById('imageUpload');
             
+            const content = contentInput.value.trim();
+            const imageFile = imageUpload.files[0];
+
             if (!content && !imageFile) {
-                alert('请输入内容或选择一张图片');
+                alert('请输入内容或选择图片');
                 return;
             }
-            
+
             try {
-                let imageUrl = null;
-                
-                // 如果有图片，先上传图片
-                if (imageFile) {
-                    alert('图片上传中，请稍候...');
-                    imageUrl = await uploadImage(imageFile);
-                }
-                
-                // 发布内容（包含图片URL）
-                await addPost(currentUser, content, imageUrl);
-                
-                // 清空输入框和预览
+                console.log('开始发布内容...');
+                await window.publishContent(content, imageFile);
                 contentInput.value = '';
-                document.getElementById('imageInput').value = '';
-                document.getElementById('imagePreview').innerHTML = '';
-                
-                await loadPosts();
-                alert('发布成功！');
-                
+                imageUpload.value = '';
+                console.log('发布成功！');
             } catch (error) {
-                alert('发布失败: ' + error.message);
-                console.error('发布错误:', error);
+                console.error('发布失败：', error);
+                alert('发布失败，请重试');
             }
         }
-        
-        // 页面加载时获取内容 - 添加重试机制
-        window.addEventListener('DOMContentLoaded', function() {
-            let retryCount = 0;
-            const maxRetries = 5;
-            
-            function tryLoadPosts() {
-                if (typeof loadPosts !== 'undefined') {
-                    loadPosts();
-                    console.log('内容加载成功！');
-                } else if (retryCount < maxRetries) {
-                    retryCount++;
-                    console.log(`第 ${retryCount} 次尝试加载内容...`);
-                    setTimeout(tryLoadPosts, 500);
-                } else {
-                    console.log('初始加载失败，请点击刷新按钮手动加载内容');
-                    document.getElementById('postsContainer').innerHTML = `
-                        <div class="empty-state">
-                            <h3>内容加载中...</h3>
-                            <p>如果长时间未显示，请点击"刷新内容"按钮</p>
-                        </div>
-                    `;
-                }
+
+        // 点赞功能
+        async function toggleLike(postId, currentLikes, currentLiked) {
+            try {
+                const result = await window.updateLike(postId, currentLikes, currentLiked);
+                // 更新界面
+                const likeBtn = document.querySelector(`[data-postid="${postId}"] .like-btn`);
+                const likeCount = likeBtn.querySelector('span:last-child');
+                
+                likeBtn.classList.toggle('liked');
+                likeCount.textContent = result.likes;
+            } catch (error) {
+                console.error('点赞失败：', error);
             }
+        }
+
+        // 时间格式化函数
+        function formatTime(timestamp) {
+            if (!timestamp) return '刚刚';
             
-            tryLoadPosts();
+            const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            
+            if (diff < 60000) return '刚刚';
+            if (diff < 3600000) return `${Math.floor(diff / 60000)}分钟前`;
+            if (diff < 86400000) return `${Math.floor(diff / 3600000)}小时前`;
+            
+            return `${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+        }
+
+        // 初始化函数
+        function initializeApp() {
+            // 监听帖子更新
+            if (window.listenToPosts) {
+                window.listenToPosts(function(posts) {
+                    const container = document.getElementById('postsContainer');
+                    
+                    if (!posts || posts.length === 0) {
+                        container.innerHTML = '<div class="empty-posts">还没有留言，快来第一个分享吧！</div>';
+                        return;
+                    }
+
+                    container.innerHTML = posts.map(post => {
+                        // 根据内容判断是小白还是小鸡毛的留言
+                        const isXiaobai = post.content && (post.content.includes('小白') || post.author === '小白');
+                        const isXiaojimao = post.content && (post.content.includes('小鸡毛') || post.author === '小鸡毛');
+                        
+                        let postClass = 'post';
+                        let authorName = '匿名用户';
+                        
+                        if (isXiaobai) {
+                            postClass = 'post post-xiaobai';
+                            authorName = '小白';
+                        } else if (isXiaojimao) {
+                            postClass = 'post post-xiaojimao';
+                            authorName = '小鸡毛';
+                        }
+
+                        return `
+                            <div class="${postClass}" data-postid="${post.id}">
+                                <div class="post-header">
+                                    <div class="post-author">${authorName}</div>
+                                    <div class="post-time">${formatTime(post.timestamp)}</div>
+                                </div>
+                                <div class="post-content">${post.content || ''}</div>
+                                ${post.imageUrl ? `<img src="${post.imageUrl}" alt="分享的图片" class="post-image" onerror="this.style.display='none'">` : ''}
+                                <div class="post-actions">
+                                    <button class="like-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike('${post.id}', ${post.likes || 0}, ${post.liked || false})">
+                                        <span>❤️</span>
+                                        <span>${post.likes || 0}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                });
+            } else {
+                console.error('Firebase 函数未加载');
+                setTimeout(initializeApp, 1000); // 1秒后重试
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成，初始化应用...');
+            setTimeout(initializeApp, 1000); // 给 Firebase 一些时间加载
         });
 
-        // 查看大图
-        window.viewImage = function(imageUrl) {
-            window.open(imageUrl, '_blank');
-        };
+        // 文件选择显示文件名
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : '未选择文件';
+            console.log('选择的文件:', fileName);
+        });
     </script>
 </body>
 </html>

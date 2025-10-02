@@ -17,27 +17,34 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// ImgBB 图片上传函数（免费无需登录）
+// CatBox.moe 图片上传函数（真正免费无需登录）
 window.uploadImage = async function(file) {
     try {
-        console.log('开始上传图片:', file.name);
+        console.log('开始上传图片:', file.name, '大小:', file.size);
+        
+        // 检查文件大小（CatBox限制200MB，但我们限制10MB以防万一）
+        if (file.size > 10 * 1024 * 1024) {
+            throw new Error('图片大小不能超过10MB');
+        }
         
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('fileToUpload', file);
+        formData.append('reqtype', 'fileupload');
         
-        // 使用 ImgBB 免费API（无需注册）
-        const response = await fetch('https://api.imgbb.com/1/upload?key=6c2d4c5cf14ef759e5754691c0c65e5f', {
+        console.log('正在上传到CatBox...');
+        const response = await fetch('https://catbox.moe/user/api.php', {
             method: 'POST',
             body: formData
         });
         
-        const result = await response.json();
-        console.log('上传结果:', result);
+        const imageUrl = await response.text();
+        console.log('上传响应:', imageUrl);
         
-        if (result.success) {
-            return result.data.url; // 返回图片链接
+        if (imageUrl && imageUrl.startsWith('https://')) {
+            console.log('上传成功:', imageUrl);
+            return imageUrl;
         } else {
-            throw new Error(result.error.message || '上传失败');
+            throw new Error('上传失败: ' + imageUrl);
         }
     } catch (error) {
         console.error("图片上传失败: ", error);
@@ -213,4 +220,5 @@ window.postComment = async function(postId) {
 window.viewImage = function(imageUrl) {
     window.open(imageUrl, '_blank');
 };
+
 

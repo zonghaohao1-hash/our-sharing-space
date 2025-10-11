@@ -341,6 +341,38 @@
                 currentUser = this.getAttribute('data-user');
             });
         });
+
+        // 图片选择按钮事件
+        document.getElementById('chooseImageBtn').addEventListener('click', function() {
+            document.getElementById('imageInput').click();
+        });
+        
+        // 图片选择变化事件
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                previewImage(file);
+            }
+        });
+        
+        // 图片预览函数
+        function previewImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('imagePreview');
+                preview.innerHTML = `
+                <img src="${e.target.result}" class="preview-image" alt="预览图片">
+                <button type="button" class="remove-image" onclick="removeImage()">移除图片</button>
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // 移除图片函数
+        window.removeImage = function() {
+            document.getElementById('imageInput').value = '';
+            document.getElementById('imagePreview').innerHTML = '';
+        }
         
         // 发布内容
         document.querySelector('.publish-btn').addEventListener('click', publishContent);
@@ -358,19 +390,39 @@
         async function publishContent() {
             const contentInput = document.querySelector('.content-input');
             const content = contentInput.value.trim();
+            const imageFile = document.getElementById('imageInput').files[0];
             
-            if (!content) {
-                alert('请输入内容');
+            if (!content && !imageFile) {
+                alert('请输入内容或选择一张图片');
                 return;
             }
             
             try {
-                await addPost(currentUser, content);
+                let imageUrl = null;
+                
+                // 如果有图片，先处理图片
+                if (imageFile) {
+                    // 检查文件大小
+                    if (imageFile.size > 2 * 1024 * 1024) {
+                        alert('图片大小不能超过2MB');
+                        return;
+                    }
+                    imageUrl = await uploadImage(imageFile);
+                }
+                
+                // 发布内容（包含图片URL）
+                await addPost(currentUser, content, imageUrl);
+                
+                // 清空输入框和预览
                 contentInput.value = '';
+                document.getElementById('imageInput').value = '';
+                document.getElementById('imagePreview').innerHTML = '';
+                
                 await loadPosts();
                 alert('发布成功！');
+            
             } catch (error) {
-                alert('发布失败，请重试');
+                alert('发布失败: ' + error.message);
                 console.error('发布错误:', error);
             }
         }
@@ -380,4 +432,5 @@
     </script>
 </body>
 </html>
+
 

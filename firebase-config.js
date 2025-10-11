@@ -88,7 +88,7 @@ window.loadPosts = async function() {
             
             postsArray.forEach((post) => {
                 const date = new Date(post.timestamp);
-                const dateString = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                const dateString = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
                 
                 let commentsHTML = '';
                 if (post.comments) {
@@ -97,8 +97,8 @@ window.loadPosts = async function() {
                     
                     commentsArray.forEach(comment => {
                         const commentDate = new Date(comment.timestamp);
-                        const commentDateString = `${commentDate.getFullYear()}-${(commentDate.getMonth()+1).toString().padStart(2, '0')}-${commentDate.getDate().toString().padStart(2, '0')}`;
-                        
+                        const commentDateString = `${commentDate.getFullYear()}-${(commentDate.getMonth()+1).toString().padStart(2, '0')}-${commentDate.getDate().toString().padStart(2, '0')} ${commentDate.getHours().toString().padStart(2, '0')}:${commentDate.getMinutes().toString().padStart(2, '0')}`;
+
                         commentsHTML += `
                             <div class="comment">
                                 <div class="comment-header">
@@ -171,3 +171,4 @@ window.postComment = async function(postId) {
         console.error('评论错误:', error);
     }
 };
+

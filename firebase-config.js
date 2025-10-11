@@ -1,30 +1,36 @@
-// 请将下面的配置替换为您在 Firebase 获取的实际配置
+// Firebase 配置 - 已更新为您的配置
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, Timestamp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+import { getDatabase, ref, push, set, onValue, orderByKey, limitToLast, query } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
 
-// Firebase 配置 - 需要替换成您的配置
 const firebaseConfig = {
-    apiKey: "您的apiKey",
-    authDomain: "您的authDomain",
-    projectId: "您的projectId",
-    storageBucket: "您的storageBucket",
-    messagingSenderId: "您的messagingSenderId",
-    appId: "您的appId"
+  apiKey: "AIzaSyAll5S5iiCkXcpaVN9Ao7oQ-kQaGOAD3-A",
+  authDomain: "our-sharing-space.firebaseapp.com",
+  databaseURL: "https://our-sharing-space-default-rtdb.firebaseio.com",
+  projectId: "our-sharing-space",
+  storageBucket: "our-sharing-space.firebasestorage.app",
+  messagingSenderId: "368313136195",
+  appId: "1:368313136195:web:157ebd1835a983cc3f50f6",
+  measurementId: "G-71CY3DVM2Q"
 };
 
 // 初始化 Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const database = getDatabase(app);
 
 // 添加新内容
 window.addPost = async function(author, content) {
     try {
-        await addDoc(collection(db, "posts"), {
+        const postsRef = ref(database, 'posts');
+        const newPostRef = push(postsRef);
+        
+        await set(newPostRef, {
             author: author,
             content: content,
-            timestamp: Timestamp.now(),
-            comments: []
+            timestamp: new Date().toISOString(),
+            comments: {}
         });
+        
+        return true;
     } catch (error) {
         console.error("添加内容错误: ", error);
         throw error;
@@ -34,19 +40,16 @@ window.addPost = async function(author, content) {
 // 添加评论
 window.addComment = async function(postId, author, content) {
     try {
-        const postRef = doc(db, "posts", postId);
-        const postDoc = await getDoc(postRef);
-        const currentComments = postDoc.data().comments || [];
+        const commentsRef = ref(database, `posts/${postId}/comments`);
+        const newCommentRef = push(commentsRef);
         
-        currentComments.push({
+        await set(newCommentRef, {
             author: author,
             content: content,
-            timestamp: Timestamp.now()
+            timestamp: new Date().toISOString()
         });
         
-        await updateDoc(postRef, {
-            comments: currentComments
-        });
+        return true;
     } catch (error) {
         console.error("添加评论错误: ", error);
         throw error;
@@ -59,71 +62,82 @@ window.loadPosts = async function() {
         const postsContainer = document.getElementById('postsContainer');
         postsContainer.innerHTML = '<div class="empty-state"><h3>加载中...</h3></div>';
         
-        const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
-        const querySnapshot = await getDocs(q);
+        const postsRef = ref(database, 'posts');
+        const postsQuery = query(postsRef, orderByKey());
         
-        if (querySnapshot.empty) {
-            postsContainer.innerHTML = `
-                <div class="empty-state">
-                    <h3>还没有任何分享</h3>
-                    <p>发布第一条内容开始记录吧</p>
-                </div>
-            `;
-            return;
-        }
-        
-        let postsHTML = '';
-        
-        querySnapshot.forEach((doc) => {
-            const post = doc.data();
-            const postId = doc.id;
-            const date = post.timestamp.toDate();
-            const dateString = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        onValue(postsQuery, (snapshot) => {
+            const postsData = snapshot.val();
             
-            let commentsHTML = '';
-            if (post.comments && post.comments.length > 0) {
-                post.comments.forEach(comment => {
-                    const commentDate = comment.timestamp.toDate();
-                    const commentDateString = `${commentDate.getFullYear()}-${(commentDate.getMonth()+1).toString().padStart(2, '0')}-${commentDate.getDate().toString().padStart(2, '0')}`;
-                    
-                    commentsHTML += `
-                        <div class="comment">
-                            <div class="comment-header">
-                                <span class="comment-author">${comment.author}</span>
-                                <span class="comment-date">${commentDateString}</span>
-                            </div>
-                            <div class="comment-content">${comment.content}</div>
-                        </div>
-                    `;
-                });
+            if (!postsData) {
+                postsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <h3>还没有任何分享</h3>
+                        <p>发布第一条内容开始记录吧</p>
+                    </div>
+                `;
+                return;
             }
             
-            postsHTML += `
-                <div class="post-card">
-                    <div class="post-header">
-                        <span class="post-author">${post.author}</span>
-                        <span class="post-date">${dateString}</span>
-                    </div>
-                    <div class="post-content">${post.content}</div>
-                    <div class="comments-section">
-                        ${commentsHTML || '<p style="color: #999; font-style: italic;">暂无评论</p>'}
-                        <div class="comment-input-group">
-                            <input type="text" class="comment-input" placeholder="写下你的评论..." data-postid="${postId}">
-                            <button class="comment-btn" onclick="postComment('${postId}')">评论</button>
+            // 转换数据为数组并按时间排序
+            const postsArray = Object.entries(postsData).map(([id, post]) => ({
+                id,
+                ...post
+            })).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            let postsHTML = '';
+            
+            postsArray.forEach((post) => {
+                const date = new Date(post.timestamp);
+                const dateString = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                
+                let commentsHTML = '';
+                if (post.comments) {
+                    const commentsArray = Object.values(post.comments);
+                    commentsArray.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                    
+                    commentsArray.forEach(comment => {
+                        const commentDate = new Date(comment.timestamp);
+                        const commentDateString = `${commentDate.getFullYear()}-${(commentDate.getMonth()+1).toString().padStart(2, '0')}-${commentDate.getDate().toString().padStart(2, '0')}`;
+                        
+                        commentsHTML += `
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <span class="comment-author">${comment.author}</span>
+                                    <span class="comment-date">${commentDateString}</span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                postsHTML += `
+                    <div class="post-card">
+                        <div class="post-header">
+                            <span class="post-author">${post.author}</span>
+                            <span class="post-date">${dateString}</span>
+                        </div>
+                        <div class="post-content">${post.content}</div>
+                        <div class="comments-section">
+                            ${commentsHTML || '<p style="color: #999; font-style: italic;">暂无评论</p>'}
+                            <div class="comment-input-group">
+                                <input type="text" class="comment-input" placeholder="写下你的评论..." data-postid="${post.id}">
+                                <button class="comment-btn" onclick="postComment('${post.id}')">评论</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-        });
-        
-        postsContainer.innerHTML = postsHTML;
-        
-        // 为评论输入框添加回车事件
-        document.querySelectorAll('.comment-input').forEach(input => {
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    postComment(this.getAttribute('data-postid'));
-                }
+                `;
+            });
+            
+            postsContainer.innerHTML = postsHTML;
+            
+            // 为评论输入框添加回车事件
+            document.querySelectorAll('.comment-input').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        postComment(this.getAttribute('data-postid'));
+                    }
+                });
             });
         });
         
@@ -151,7 +165,7 @@ window.postComment = async function(postId) {
     try {
         await addComment(postId, currentUser, content);
         commentInput.value = '';
-        await loadPosts();
+        // 评论会自动通过onValue监听更新
     } catch (error) {
         alert('评论发布失败，请重试');
         console.error('评论错误:', error);

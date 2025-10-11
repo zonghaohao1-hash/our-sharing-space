@@ -1,3 +1,22 @@
+// Firebase 配置 - 已更新为您的配置
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+import { getDatabase, ref, push, set, onValue, orderByKey, limitToLast, query } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAll5S5iiCkXcpaVN9Ao7oQ-kQaGOAD3-A",
+  authDomain: "our-sharing-space.firebaseapp.com",
+  databaseURL: "https://our-sharing-space-default-rtdb.firebaseio.com",
+  projectId: "our-sharing-space",
+  storageBucket: "our-sharing-space.firebasestorage.app",
+  messagingSenderId: "368313136195",
+  appId: "1:368313136195:web:157ebd1835a983cc3f50f6",
+  measurementId: "G-71CY3DVM2Q"
+};
+
+// 初始化 Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
 // Base64图片编码函数
 window.uploadImage = async function(file) {
     try {
@@ -19,25 +38,6 @@ window.uploadImage = async function(file) {
         throw error;
     }
 };
-
-// Firebase 配置 - 已更新为您的配置
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-import { getDatabase, ref, push, set, onValue, orderByKey, limitToLast, query } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAll5S5iiCkXcpaVN9Ao7oQ-kQaGOAD3-A",
-  authDomain: "our-sharing-space.firebaseapp.com",
-  databaseURL: "https://our-sharing-space-default-rtdb.firebaseio.com",
-  projectId: "our-sharing-space",
-  storageBucket: "our-sharing-space.firebasestorage.app",
-  messagingSenderId: "368313136195",
-  appId: "1:368313136195:web:157ebd1835a983cc3f50f6",
-  measurementId: "G-71CY3DVM2Q"
-};
-
-// 初始化 Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
 
 // 添加新内容（支持图片）
 window.addPost = async function(author, content, imageUrl = null) {
@@ -134,6 +134,13 @@ window.loadPosts = async function() {
                     });
                 }
                 
+                // 添加图片显示
+                const imageHTML = post.imageUrl ? `
+                    <div class="post-image">
+                        <img src="${post.imageUrl}" alt="分享的图片" onclick="viewImage('${post.imageUrl}')">
+                    </div>
+                ` : '';
+                
                 postsHTML += `
                     <div class="post-card">
                         <div class="post-header">
@@ -141,6 +148,7 @@ window.loadPosts = async function() {
                             <span class="post-date">${dateString}</span>
                         </div>
                         <div class="post-content">${post.content}</div>
+                        ${imageHTML}
                         <div class="comments-section">
                             ${commentsHTML || '<p style="color: #999; font-style: italic;">暂无评论</p>'}
                             <div class="comment-input-group">
@@ -195,4 +203,7 @@ window.postComment = async function(postId) {
     }
 };
 
-
+// 查看大图
+window.viewImage = function(imageUrl) {
+    window.open(imageUrl, '_blank');
+};

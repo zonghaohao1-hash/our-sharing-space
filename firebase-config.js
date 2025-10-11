@@ -1,3 +1,25 @@
+// Base64图片编码函数
+window.uploadImage = async function(file) {
+    try {
+        console.log('使用Base64编码图片:', file.name);
+        
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                console.log('图片Base64编码完成');
+                resolve(e.target.result); // 返回data:image/jpeg;base64,...格式
+            };
+            reader.onerror = function(error) {
+                reject(new Error('图片读取失败: ' + error));
+            };
+            reader.readAsDataURL(file);
+        });
+    } catch (error) {
+        console.error("图片处理失败: ", error);
+        throw error;
+    }
+};
+
 // Firebase 配置 - 已更新为您的配置
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
 import { getDatabase, ref, push, set, onValue, orderByKey, limitToLast, query } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
@@ -17,8 +39,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// 添加新内容
-window.addPost = async function(author, content) {
+// 添加新内容（支持图片）
+window.addPost = async function(author, content, imageUrl = null) {
     try {
         const postsRef = ref(database, 'posts');
         const newPostRef = push(postsRef);
@@ -26,6 +48,7 @@ window.addPost = async function(author, content) {
         await set(newPostRef, {
             author: author,
             content: content,
+            imageUrl: imageUrl, // 新增图片URL字段
             timestamp: new Date().toISOString(),
             comments: {}
         });
@@ -171,4 +194,5 @@ window.postComment = async function(postId) {
         console.error('评论错误:', error);
     }
 };
+
 
